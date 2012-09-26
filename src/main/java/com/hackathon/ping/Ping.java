@@ -13,9 +13,7 @@ public class Ping {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		
-		
-		
+		PingGUI gui = new PingGUI();
 	}
 
 }
