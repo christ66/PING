@@ -8,6 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 /**
  * @author river226
@@ -15,6 +17,7 @@ import java.awt.event.KeyListener;
 
 public class PingGUI {
 	JFrame frame;
+	JButton winex;
 
 	public PingGUI() {
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -27,7 +30,30 @@ public class PingGUI {
 		frame.setBackground(Color.LIGHT_GRAY);
 		frame.setSize(w, h);
 		frame.setLocation(x, y);
-		frame.setTitle("PING: PING is not a Git client");
+		frame.setTitle("PING: PING is not Git");
+		
+		winex = new JButton("exit");
+		winex.setSize(20, 10);
+		winex.addMouseListener(new MouseListener(){
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) { System.exit(0);	}
+
+			@Override
+			public void mouseEntered(MouseEvent arg0) { /* NOTHING */ }
+
+			@Override
+			public void mouseExited(MouseEvent arg0) { /* NOTHING */ }
+
+			@Override
+			public void mousePressed(MouseEvent arg0) { /* NOTHING */ }
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) { /* NOTHING */ }
+			
+		});
+		frame.add(winex);
+		
 		
 		frame.addKeyListener(new KeyListener() {
 
