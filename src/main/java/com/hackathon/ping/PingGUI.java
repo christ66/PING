@@ -25,10 +25,12 @@ public class PingGUI {
 	JPanel base;
 	PINGButton winex, winmax, winmin;
 	Box box;
+	int w, h;
 
 	public PingGUI() {
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		int w = 900, h = 600;
+		w = 900;
+		h = 600;
 		int x = (dim.width-w)/2;
 		int y = (dim.height-h)/2;
 		frame = new JFrame("PING: PING is not Git");
@@ -40,7 +42,7 @@ public class PingGUI {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				
 		box = new Box(BoxLayout.X_AXIS);
-		box.setForeground(Color.BLACK);
+		box.setLocation(new Point(0,0));
 		buildWinOpArea();
 		frame.add(box);
 		
@@ -71,12 +73,14 @@ public class PingGUI {
 	
 	private void buildWinOpArea() {
 		
-		winex = new PINGButton("exit", Color.WHITE, Color.RED, 1);
-		winex.setSize(20, 10);
-		winmax = new PINGButton("max", 2);
-		winmax.setSize(10, 10);
-		winmin = new PINGButton("min", 3);
-		winmin.setSize(10, 10);
+		Icon exit = new ImageIcon("icons/exit.ico");
+		
+		winex = new PINGButton("exit");
+		winex.setBounds(w-10, 0, 10, 10);
+		winmax = new PINGButton("max");
+		winmax.setBounds(w-80, 0, 10, 10);
+		winmin = new PINGButton("min");
+		winmin.setBounds(w-120, 0, 10, 10);
 		winex.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent a) {System.exit(0);}
@@ -92,7 +96,7 @@ public class PingGUI {
 		box.add(winmin);
 		box.add(winmax);
 		box.add(winex);
-		box.setAlignmentY(Component.TOP_ALIGNMENT);
+		box.setBounds(0, 0, 60, 70);
 	}
 
 

@@ -1,5 +1,6 @@
 package main.java.com.hackathon.ping.objects;
 
+import javax.swing.Icon;
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
@@ -8,25 +9,33 @@ import java.awt.event.MouseListener;
 public class PINGButton extends JButton {
 	
 	private final Color defaultColor, hoverColor;
-	private int option; // 1 - exit, 2 - max, 3 - min
-	// other options
 	
 	/**
 	 * Keeping Eclipse Happy
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public PINGButton(String text, int op) {
+	public PINGButton(String text) {
 		super(text);
 		
 		defaultColor = Color.WHITE;
-		hoverColor = Color.CYAN;
+		hoverColor = Color.LIGHT_GRAY;
 		this.setBackground(defaultColor);
 		addMouse();
 		this.setBorderPainted(false);
 	}
 	
-	public PINGButton(String text, Color main, Color hover, int op) {
+	public PINGButton(Icon i) {
+		super(i);
+		
+		defaultColor = Color.WHITE;
+		hoverColor = Color.LIGHT_GRAY;
+		this.setBackground(defaultColor);
+		addMouse();
+		this.setBorderPainted(false);
+	}
+	
+	public PINGButton(String text, Color main, Color hover) {
 		super(text);
 		
 		defaultColor = main;
