@@ -6,7 +6,11 @@ package main.java.com.hackathon.ping;
 
 import javax.swing.*;
 
+import main.java.com.hackathon.ping.objects.PINGButton;
+
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -19,7 +23,7 @@ import java.awt.event.MouseListener;
 public class PingGUI {
 	JFrame frame;
 	JPanel base;
-	JButton winex, winmax, winmin;
+	PINGButton winex, winmax, winmin;
 	Box box;
 
 	public PingGUI() {
@@ -67,66 +71,24 @@ public class PingGUI {
 	
 	private void buildWinOpArea() {
 		
-		winex = new JButton("exit");
+		winex = new PINGButton("exit", Color.WHITE, Color.RED, 1);
 		winex.setSize(20, 10);
-		winmax = new JButton("max");
+		winmax = new PINGButton("max", 2);
 		winmax.setSize(10, 10);
-		winmin = new JButton("min");
+		winmin = new PINGButton("min", 3);
 		winmin.setSize(10, 10);
-		winex.addMouseListener(new MouseListener(){
+		winex.addMouseListener(new MouseListener() {
 			@Override
-			public void mouseClicked(MouseEvent arg0) { System.exit(0);	}
-
+			public void mouseClicked(MouseEvent a) {System.exit(0);}
 			@Override
-			public void mouseEntered(MouseEvent arg0) { /* NOTHING */ }
-
+			public void mouseEntered(MouseEvent a) {winex.doMouseEnt();}
 			@Override
-			public void mouseExited(MouseEvent arg0) { /* NOTHING */ }
-
+			public void mouseExited(MouseEvent a) {winex.doMouseEx();}
 			@Override
-			public void mousePressed(MouseEvent arg0) { /* NOTHING */ }
-
+			public void mousePressed(MouseEvent arg0) {/* NOTHING */}
 			@Override
-			public void mouseReleased(MouseEvent arg0) { /* NOTHING */ }		
+			public void mouseReleased(MouseEvent arg0) {/* NOTHING */}			
 		});
-		winmin.addMouseListener(new MouseListener(){
-			@Override
-			public void mouseClicked(MouseEvent arg0) { /* NOTHING */ 	}
-
-			@Override
-			public void mouseEntered(MouseEvent arg0) { /* NOTHING */ }
-
-			@Override
-			public void mouseExited(MouseEvent arg0) { /* NOTHING */ }
-
-			@Override
-			public void mousePressed(MouseEvent arg0) { /* NOTHING */ }
-
-			@Override
-			public void mouseReleased(MouseEvent arg0) { /* NOTHING */ }		
-		});
-		winmax.addMouseListener(new MouseListener(){
-			@Override
-			public void mouseClicked(MouseEvent arg0) { /* NOTHING */ 	}
-
-			@Override
-			public void mouseEntered(MouseEvent arg0) { /* NOTHING */ }
-
-			@Override
-			public void mouseExited(MouseEvent arg0) { /* NOTHING */ }
-
-			@Override
-			public void mousePressed(MouseEvent arg0) { /* NOTHING */ }
-
-			@Override
-			public void mouseReleased(MouseEvent arg0) { /* NOTHING */ }		
-		});
-		winex.setBackground(Color.RED);
-		winex.setBorderPainted(false);
-		winmin.setBackground(Color.WHITE);
-		winmin.setBorderPainted(false);
-		winmax.setBackground(Color.WHITE);
-		winmax.setBorderPainted(false);
 		box.add(winmin);
 		box.add(winmax);
 		box.add(winex);
