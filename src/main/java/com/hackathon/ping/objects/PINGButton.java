@@ -26,7 +26,8 @@ public class PINGButton extends JButton {
 	}
 	
 	public PINGButton(Icon i) {
-		super(i);
+		super();
+		this.setIcon(i);
 		
 		defaultColor = Color.WHITE;
 		hoverColor = Color.LIGHT_GRAY;

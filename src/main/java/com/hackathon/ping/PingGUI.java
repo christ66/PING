@@ -15,6 +15,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 
 /**
  * @author river226
@@ -22,13 +23,14 @@ import java.awt.event.MouseListener;
 
 public class PingGUI {
 	JFrame frame;
-	JPanel base;
+	JPanel base, menu;
 	PINGButton winex, winmax, winmin;
 	Box box;
 	int w, h;
 
 	public PingGUI() {
 		base = new JPanel();
+		menu = new JPanel();
 		base.setBackground(Color.WHITE);
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		w = 900;
@@ -71,15 +73,15 @@ public class PingGUI {
 	}
 	
 	private void buildWinOpArea() {
-		
-		Icon exit = new ImageIcon("icons/exit.ico");
+		Icon iExit = new ImageIcon("icons/exit.ico");
+		base.setLayout(null);
 		
 		winex = new PINGButton("exit");
-		winex.setSize(10,10);
+		winex.setBounds(w-40,0, 40, 40);
 		winmax = new PINGButton("max");
-		winmax.setSize(10,10);
+		winmax.setBounds(w-80,0, 40, 40);
 		winmin = new PINGButton("min");
-		winmin.setSize(10,10);
+		winmin.setBounds(w-120,0, 40, 40);
 		winex.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent a) {System.exit(0);}
@@ -96,6 +98,7 @@ public class PingGUI {
 		base.add(winmin);
 		base.add(winmax);
 		base.add(winex);
+		//base.add(menu);
 	}
 
 
