@@ -47,36 +47,15 @@ public class PingGUI {
 		buildWinOpArea();
 		frame.add(base);
 		
-		
-		
-		frame.addKeyListener(new KeyListener() {
-
-			@Override
-			public void keyTyped(KeyEvent e) {
-				//NOTHING
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				//NOTHING	
-			}
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-				if(e.getKeyChar() == KeyEvent.VK_ESCAPE){
-					System.exit(0);
-				} // close window when esc is pressed
-			}
-		});
-		
 		frame.setVisible(true);
 	}
 	
 	private void buildWinOpArea() {
-		Icon iExit = new ImageIcon("icons/exit.ico");
+		ImageIcon iExit = new ImageIcon("icons/exit.png");
+		System.out.print(iExit.getIconHeight());
 		base.setLayout(null);
 		
-		winex = new PINGButton("exit");
+		winex = new PINGButton(iExit);
 		winex.setBounds(w-40,0, 40, 40);
 		winmax = new PINGButton("max");
 		winmax.setBounds(w-80,0, 40, 40);
