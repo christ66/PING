@@ -22,6 +22,7 @@ public class PINGButton extends JButton {
 		this.setBackground(defaultColor);
 		addMouse();
 		this.setBorderPainted(false);
+		this.setIcon(getIcon());
 	}
 	
 	public PINGButton(Icon i) {
@@ -70,9 +71,11 @@ public class PINGButton extends JButton {
 	
 	public void doMouseEx() {
 		this.setBackground(defaultColor);
+		this.setIcon(getIcon());
 	}
 	
 	public void doMouseEnt() {
 		this.setBackground(hoverColor);
+		this.setIcon(getIcon());
 	}
 }
