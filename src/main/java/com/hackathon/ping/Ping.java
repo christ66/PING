@@ -4,7 +4,6 @@
 package main.java.com.hackathon.ping;
 
 /**
- * @author schristou88
  * @author river226
  */
 public class Ping {
@@ -12,6 +11,7 @@ public class Ping {
 	/**
 	 * @param args
 	 */
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		PingGUI gui = new PingGUI();
 	}

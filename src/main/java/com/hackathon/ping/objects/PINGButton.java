@@ -3,8 +3,8 @@ package main.java.com.hackathon.ping.objects;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import java.awt.Color;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 public class PINGButton extends JButton {
 	
@@ -34,21 +34,8 @@ public class PINGButton extends JButton {
 		this.setBorderPainted(false);
 	}
 	
-	public PINGButton(String text, Color main, Color hover) {
-		super(text);
-		
-		defaultColor = main;
-		hoverColor = hover;
-		super.setBackground(defaultColor);
-		addMouse();
-		this.setBorderPainted(false);
-	}
-	
 	private void addMouse() {
-		super.addMouseListener(new MouseListener() {
-
-			@Override
-			public void mouseClicked(MouseEvent a) { /* NOTHING */}
+		super.addMouseListener(new MouseAdapter() {
 
 			@Override
 			public void mouseEntered(MouseEvent a) {
@@ -59,23 +46,15 @@ public class PINGButton extends JButton {
 			public void mouseExited(MouseEvent a) {
 				doMouseEx();
 			}
-
-			@Override
-			public void mousePressed(MouseEvent arg0) {/* NOTHING */}
-
-			@Override
-			public void mouseReleased(MouseEvent arg0) {/* NOTHING */}
 			
 		});
 	}
 	
-	public void doMouseEx() {
+	private void doMouseEx() {
 		this.setBackground(defaultColor);
-		this.setIcon(getIcon());
 	}
 	
-	public void doMouseEnt() {
+	private void doMouseEnt() {
 		this.setBackground(hoverColor);
-		this.setIcon(getIcon());
 	}
 }

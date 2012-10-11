@@ -4,14 +4,10 @@
 
 package main.java.com.hackathon.ping;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-
 import main.java.com.hackathon.ping.objects.PINGButton;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-import java.io.IOException;
 
 /**
  * @author river226
@@ -96,17 +92,9 @@ public class PingGUI {
 		winmax.setBounds(w-80,0, 40, 40);
 		winmin = new PINGButton("_");
 		winmin.setBounds(w-120,0, 40, 40);
-		winex.addMouseListener(new MouseListener() {
+		winex.addActionListener(new ActionListener(){
 			@Override
-			public void mouseClicked(MouseEvent a) {System.exit(0);}
-			@Override
-			public void mouseEntered(MouseEvent a) {winex.doMouseEnt();}
-			@Override
-			public void mouseExited(MouseEvent a) {winex.doMouseEx();}
-			@Override
-			public void mousePressed(MouseEvent arg0) {/* NOTHING */}
-			@Override
-			public void mouseReleased(MouseEvent arg0) {/* NOTHING */}			
+			public void actionPerformed(ActionEvent arg0) { System.exit(0); }
 		});
 		base.setAlignmentY(w);
 		//base.add(winmin);
