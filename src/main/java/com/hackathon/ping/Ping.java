@@ -1,7 +1,7 @@
 /**
  * 
  */
-package main.java.com.hackathon.ping;
+package com.hackathon.ping;
 
 /**
  * @author river226
@@ -13,7 +13,9 @@ public class Ping {
 	 */
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
-		PingGUI gui = new PingGUI();
+		PingMainFrame gui = new PingMainFrame();
+		
+		gui.setVisible(true);
 	}
 
 }

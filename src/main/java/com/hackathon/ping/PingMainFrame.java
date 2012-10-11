@@ -2,10 +2,12 @@
  * This class builds the GUI for the PING application window
  */
 
-package main.java.com.hackathon.ping;
+package com.hackathon.ping;
 
 import javax.swing.*;
-import main.java.com.hackathon.ping.objects.PINGButton;
+import com.hackathon.ping.objects.PINGButton;
+import com.sun.org.apache.xerces.internal.impl.RevalidationHandler;
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -13,38 +15,60 @@ import java.awt.event.*;
  * @author river226
  */
 
-public class PingGUI {
-	JFrame frame;
+public class PingMainFrame extends JFrame {
 	JPanel base, menu, wiki, repo, account;
 	PINGButton winex, winmax, winmin;
-	int w, h;
+	Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+	int w = 900;
+	int h = 600;
+	int x = (dim.width-w)/2;
+	int y = (dim.height-h)/2;
+	boolean drag = false;
 
-	public PingGUI() {
+	public PingMainFrame() {
+		super("Ping: PING is not Git");
+		
 		base = new JPanel();
 		menu = new JPanel();
 		wiki = new JPanel();
 		base.setBackground(Color.WHITE);
-		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		w = 900;
-		h = 600;
-		int x = (dim.width-w)/2;
-		int y = (dim.height-h)/2;
-		frame = new JFrame("PING: PING is not Git");
-		frame.setUndecorated(true);
-		frame.setResizable(false);
-		frame.setSize(w, h);
-		frame.setLocation(x, y);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		setUndecorated(true);
+		setResizable(false);
+		setSize(w, h);
+		setLocation(x, y);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		
+		
 		base.setLayout(null);		
 		buildWinOpArea();
 		buildMenu();
 		buildPanels();
+		
 		base.add(menu);
 		base.add(wiki);
 		base.add(repo);
 		base.add(account);
-		frame.add(base);
-		frame.setVisible(true);
+		
+		add(base);
+		addMouseMotionListener(new MouseMotionListener() {
+			int xx, yy;
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				x = e.getX();
+				y = e.getY();
+				
+				setLocation(x, y);
+//				repaint();
+			}
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
 	}
 	
 	private void buildPanels() {
@@ -97,10 +121,6 @@ public class PingGUI {
 			public void actionPerformed(ActionEvent arg0) { System.exit(0); }
 		});
 		base.setAlignmentY(w);
-		//base.add(winmin);
-		//base.add(winmax);
 		base.add(winex);
 	}
-
-
 }

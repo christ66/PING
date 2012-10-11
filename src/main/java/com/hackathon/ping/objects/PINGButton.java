@@ -1,6 +1,7 @@
-package main.java.com.hackathon.ping.objects;
+package com.hackathon.ping.objects;
 
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
@@ -8,7 +9,8 @@ import java.awt.event.MouseEvent;
 
 public class PINGButton extends JButton {
 	
-	private final Color defaultColor, hoverColor;
+	private final Color defaultColor = Color.WHITE;
+	private final Color hoverColor   = Color.LIGHT_GRAY;
 	
 	/**
 	 * Keeping Eclipse Happy
@@ -16,26 +18,17 @@ public class PINGButton extends JButton {
 	private static final long serialVersionUID = 1L;
 
 	public PINGButton(String text) {
-		super(text);
-		defaultColor = Color.WHITE;
-		hoverColor = Color.LIGHT_GRAY;
-		this.setBackground(defaultColor);
-		addMouse();
-		this.setBorderPainted(false);
-		this.setIcon(getIcon());
+		this(new ImageIcon(), text);
 	}
 	
-	public PINGButton(Icon i) {
-		super(i);
-		defaultColor = Color.WHITE;
-		hoverColor = Color.LIGHT_GRAY;
-		this.setBackground(defaultColor);
-		addMouse();
-		this.setBorderPainted(false);
+	public PINGButton(Icon icon) {
+		this(icon, "");
 	}
 	
-	private void addMouse() {
-		super.addMouseListener(new MouseAdapter() {
+	public PINGButton(Icon icon, String text) {
+		super(text, icon);
+		setBackground(defaultColor);
+		addMouseListener(new MouseAdapter() {
 
 			@Override
 			public void mouseEntered(MouseEvent a) {
@@ -48,7 +41,9 @@ public class PINGButton extends JButton {
 			}
 			
 		});
+		this.setBorderPainted(false);
 	}
+	
 	
 	private void doMouseEx() {
 		this.setBackground(defaultColor);
