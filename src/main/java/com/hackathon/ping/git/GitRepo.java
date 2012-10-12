@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.hackathon.ping.git;
+package main.java.com.hackathon.ping.git;
 
 import java.io.File;
 

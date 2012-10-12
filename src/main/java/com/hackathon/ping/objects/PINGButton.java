@@ -1,4 +1,4 @@
-package com.hackathon.ping.objects;
+package main.java.com.hackathon.ping.objects;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
