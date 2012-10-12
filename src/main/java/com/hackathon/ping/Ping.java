@@ -1,7 +1,7 @@
 /**
  * 
  */
-package main.java.com.hackathon.ping;
+package com.hackathon.ping;
 
 /**
  * @author river226

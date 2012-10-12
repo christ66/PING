@@ -2,10 +2,10 @@
  * This class builds the GUI for the PING application window
  */
 
-package main.java.com.hackathon.ping;
+package com.hackathon.ping;
 
 import javax.swing.*;
-import main.java.com.hackathon.ping.objects.PINGButton;
+import com.hackathon.ping.objects.PINGButton;
 import com.sun.org.apache.xerces.internal.impl.RevalidationHandler;
 
 import java.awt.*;
