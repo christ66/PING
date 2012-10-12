@@ -24,6 +24,7 @@ public class PingMainFrame extends JFrame {
 	int x = (dim.width-w)/2;
 	int y = (dim.height-h)/2;
 	boolean drag = false;
+	static Point mousePoint;
 
 	public PingMainFrame() {
 		super("Ping: PING is not Git");
@@ -52,23 +53,38 @@ public class PingMainFrame extends JFrame {
 		base.add(account);
 		
 		add(base);
+		addMouseListener(new MouseListener() {
+
+			public void mousePressed(MouseEvent e){
+				mousePoint = e.getPoint();
+			}
+
+			public void mouseReleased(MouseEvent e) {
+				mousePoint = null;
+			}
+
+			/*
+			 * By default do nothing for remaining events.
+			 */
+			public void mouseClicked(MouseEvent e) {}
+			public void mouseEntered(MouseEvent e) {}
+			public void mouseExited(MouseEvent e) {}
+			});
+		
+		
 		addMouseMotionListener(new MouseMotionListener() {
-			int xx, yy;
+			/*
+			 * Do nothing.
+			 */
+			public void mouseMoved(MouseEvent e) {}
+			
 			@Override
 			public void mouseDragged(MouseEvent e) {
-				x = e.getX();
-				y = e.getY();
+				Point newlocation = e.getLocationOnScreen();
 				
-				setLocation(x, y);
-//				repaint();
-			}
-			@Override
-			public void mouseMoved(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
+				setLocation(newlocation.x - mousePoint.x, newlocation.y - mousePoint.y);
 			}
 		});
-		
 	}
 	
 	private void buildPanels() {
