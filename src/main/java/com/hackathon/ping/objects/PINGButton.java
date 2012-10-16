@@ -7,15 +7,11 @@ import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+@SuppressWarnings("serial")
 public class PINGButton extends JButton {
 	
 	private final Color defaultColor = Color.WHITE;
 	private final Color hoverColor   = Color.LIGHT_GRAY;
-	
-	/**
-	 * Keeping Eclipse Happy
-	 */
-	private static final long serialVersionUID = 1L;
 
 	public PINGButton(String text) {
 		this(new ImageIcon(), text);

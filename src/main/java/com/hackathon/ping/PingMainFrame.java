@@ -4,17 +4,24 @@
 
 package com.hackathon.ping;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+
 import com.hackathon.ping.objects.PINGButton;
 import com.sun.org.apache.xerces.internal.impl.RevalidationHandler;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * @author river226
  */
 
+//Future: Shut this stupid exception up.
+@SuppressWarnings("serial")
 public class PingMainFrame extends JFrame {
 	JPanel base, menu, wiki, repo, account;
 	PINGButton winex, winmax, winmin;
@@ -136,28 +143,61 @@ public class PingMainFrame extends JFrame {
 	private void buildRepo() {
 		// TODO
 	}
-
+	
+	//TODO: Fix ugly hard code
 	private void buildWinOpArea() {
+		JButton exitButton = null;
+		JButton maximizeButton = null;
+		JButton minimizeButton = null;
 		
-		ImageIcon iExit = new ImageIcon("icons/exit.png");
-		System.out.print(iExit.getIconHeight());
-		base.setBounds(w-120, 0, 120, 40);
+		try {
+			exitButton = createComponentButtons("src/main/resources/icons/exit.png", new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					//On exit dispose and throw RTE instead of system.exit
+					dispose();
+					throw new RuntimeException("Exited.");
+				}
+			}, w-40);
+			
+			maximizeButton = createComponentButtons("src/main/resources/icons/max.png", new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					setSize(dim.width, dim.height);
+					
+				}
+			}, w-80);
+			
+			minimizeButton = createComponentButtons("src/main/resources/icons/min.png", new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					setState(JFrame.ICONIFIED);
+				}
+			}, w-120);
+			
+			base.add(exitButton);
+			base.add(maximizeButton);
+			base.add(minimizeButton);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			//If it fails to find an icon or fails to open an icon the instance will shutdown.
+			dispose();
+			throw new RuntimeException();
+		}
+	}
+
+	
+	private JButton createComponentButtons(String imagePath,
+			ActionListener actionListener, int location) throws IOException {
 		
-		winex = new PINGButton("X");
-		winex.setBounds(w-40,0, 40, 40);
-		winmax = new PINGButton("O");
-		winmax.setBounds(w-80,0, 40, 40);
-		winmin = new PINGButton("_"); // Minimize Button
-		winmin.setBounds(w-120,0, 40, 40);
-		winex.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent arg0) { System.exit(0); }
-		});
-		base.setAlignmentY(w);
-		base.add(winex);
-		//winmin.addActionListener(new ActionListener(){
-		//	public void actionPerformed(ActionEvent arg0) { Frame.setState(Frame.ICONIFIED) }
-		//});
-		//base.add(winmin);
-		// Other buttons to be added with necessary functionality for them is set. 
+		JButton button = new JButton(new ImageIcon(ImageIO.read(new File(imagePath))));
+		button.setBorder(BorderFactory.createEmptyBorder());
+		button.setContentAreaFilled(false);
+		
+		//TODO: Fix so not dependent on static location but instead on groupLayout.
+		button.setBounds(location,0, 40, 40);
+		button.addActionListener(actionListener);
+		return button;
 	}
 }
