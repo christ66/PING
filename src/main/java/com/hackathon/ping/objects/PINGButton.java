@@ -4,6 +4,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.Color;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -12,17 +13,14 @@ public class PINGButton extends JButton {
 	
 	private final Color defaultColor = Color.WHITE;
 	private final Color hoverColor   = Color.LIGHT_GRAY;
-
-	public PINGButton(String text) {
-		this(new ImageIcon(), text);
-	}
+	private Icon secondImage;
+	private Icon mainImage;
 	
-	public PINGButton(Icon icon) {
-		this(icon, "");
-	}
-	
-	public PINGButton(Icon icon, String text) {
-		super(text, icon);
+	public PINGButton(String icon, String second, String text, ActionListener a) {
+		super(text, new ImageIcon(icon));
+		this.addActionListener(a);
+		secondImage = new ImageIcon(second);
+		mainImage = super.getIcon();
 		setBackground(defaultColor);
 		addMouseListener(new MouseAdapter() {
 
@@ -36,11 +34,21 @@ public class PINGButton extends JButton {
 				doMouseEx();
 			}
 			
+			@Override
+			public void mousePressed(MouseEvent a) {
+				doMousePressed();
+			}
+			
 		});
 		this.setBorderPainted(false);
 	}
 	
 	
+	private void doMousePressed() {
+		this.setIcon(this.getIcon().equals(mainImage) ? secondImage : mainImage);
+	}
+
+
 	private void doMouseEx() {
 		this.setBackground(defaultColor);
 	}

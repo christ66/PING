@@ -16,17 +16,24 @@ public class Ping {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+
 		Runnable runCreateAndShowGUI = new Runnable() {
 			public void run() {
-				createAndShowGUI();
+				try {
+					createAndShowGUI();
+				}catch (RuntimeException e) {
+					e.printStackTrace();
+					System.exit(0);
+				}
 			}
 		};
 		SwingUtilities.invokeLater(runCreateAndShowGUI);
-	}
-	
-	
-	public static void createAndShowGUI() {
-		PingMainFrame mainFrame = new PingMainFrame();
+	} 
+
+
+	public static void createAndShowGUI() throws RuntimeException {
+		PingMainFrame mainFrame;
+		mainFrame = new PingMainFrame();
 		mainFrame.pack();
 		mainFrame.setVisible(true);
 	}

@@ -1,5 +1,6 @@
 /**
  * This class builds the GUI for the PING application window
+ * Specifically the Frame that holds it
  */
 
 package com.hackathon.ping;
@@ -21,8 +22,7 @@ import java.io.IOException;
 
 @SuppressWarnings("serial")
 public class PingMainFrame extends JFrame {
-	JPanel base, menu;
-	//, wiki, repo, account;
+	JPanel base, menu, wiki;
 	PINGButton winex, winmax, winmin;
 	Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 	int w = 900;
@@ -33,17 +33,16 @@ public class PingMainFrame extends JFrame {
 	static Point mousePoint;
 	private final Color DEFAULT_COLOR = Color.WHITE;
 	private final Color HOVER_COLOR   = Color.LIGHT_GRAY;
-	
-	public PingMainFrame() {
+
+	public PingMainFrame() throws RuntimeException {
 		super("Ping: PING is not Git");
-		
+
 		initComponents();
 	}
-	
-	private void initComponents() {
+
+	private void initComponents() throws RuntimeException {
 		base = new JPanel();
 		menu = new JPanel();
-//		wiki = new JPanel();
 		base.setBackground(Color.WHITE);
 
 		setUndecorated(true);
@@ -51,25 +50,21 @@ public class PingMainFrame extends JFrame {
 		setSize(w, h);
 		setLocation(x, y);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		
-		
-//		setLayout(null);
+
 		Container login = buildWindowFrame();
-		
-		Container account = createContainer("Account", Color.black);
-		Container repo    = createContainer("Repos", Color.red);
-		Container wiki    = createContainer("Wiki", Color.lightGray);
+	
 		JPanel panel = new JPanel();
-		
+
 		Container contentPane = this.getContentPane();
 		contentPane.setLayout(new FlowLayout());
 		contentPane.add(login);
-		contentPane.add(account);
-		contentPane.add(repo);
-		contentPane.add(wiki);
+		contentPane.add(new PingRepoPanel());
 
-		addMouseListener(new MouseListener() {
+		addWindowDrag();
+	}
+
+	private void addWindowDrag() { // implement Window Drag listeners
+		addMouseListener(new MouseAdapter() {
 
 			public void mousePressed(MouseEvent e){
 				mousePoint = e.getPoint();
@@ -78,117 +73,65 @@ public class PingMainFrame extends JFrame {
 			public void mouseReleased(MouseEvent e) {
 				mousePoint = null;
 			}
-
-			/*
-			 * By default do nothing for remaining events.
-			 */
-			public void mouseClicked(MouseEvent e) {}
-			public void mouseEntered(MouseEvent e) {}
-			public void mouseExited(MouseEvent e) {}
-			});
-		
-		
+			
+		});
 		addMouseMotionListener(new MouseMotionListener() {
 			/*
 			 * Do nothing.
 			 */
 			public void mouseMoved(MouseEvent e) {}
-			
+
 			@Override
 			public void mouseDragged(MouseEvent e) {
 				Point newlocation = e.getLocationOnScreen();
-				
+
 				setLocation(newlocation.x - mousePoint.x, newlocation.y - mousePoint.y);
 			}
 		});
 	}
-	
-	private Container createContainer(String string, Color color) {
-		JPanel container = new JPanel();
-		BoxLayout layout = new BoxLayout(container, BoxLayout.Y_AXIS);
-		
-		container.setLayout(layout);
-		
-		container.setBackground(color);
-		container.add(new JButton("TEST"));
-		container.add(new JButton("test"));
-		return container;
-	}
-	
+
 	//TODO: Fix ugly hard code
-	private Container buildWindowFrame() {
+	private Container buildWindowFrame() throws RuntimeException {
 		JPanel winOpArea = new JPanel();
 		BoxLayout layout = new BoxLayout(winOpArea, BoxLayout.X_AXIS);
 		winOpArea.setLayout(layout);
-		JButton exitButton = null;
-		JButton maximizeButton = null;
-		JButton minimizeButton = null;
-		JButton avatar = null;
-		try {
-			exitButton = createComponentButtons("src/main/resources/icons/exit.png", new ActionListener() {
+		PINGButton exitButton = null;
+		PINGButton maximizeButton = null;
+		PINGButton minimizeButton = null;
+		PINGButton avatar = null;
+		String[] icons = {"src/main/resources/icons/exit.png", "src/main/resources/icons/min.png", "src/main/resources/icons/max.png", "src/main/resources/icons/restore.png"};
+			exitButton = new PINGButton(icons[0], icons[0], "Exit", new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					//TODO: On exit dispose and throw RTE instead of system.exit
-					System.exit(0);
+					throw new RuntimeException();
 				}
 			});
-			
-			maximizeButton = createComponentButtons("src/main/resources/icons/max.png", new ActionListener() {
+
+			maximizeButton = new PINGButton(icons[1], icons[2], "Maximize", new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					setSize(dim.width, dim.height);
 				}
 			});
-			
-			minimizeButton = createComponentButtons("src/main/resources/icons/min.png", new ActionListener() {
+
+			minimizeButton = new PINGButton(icons[3], icons[3], "Minimize", new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					setState(JFrame.ICONIFIED);
 				}
 			});
-			
-			
-			avatar = new JButton(new ImageIcon(GitInstance.getInstance().getAvatar()));
-			avatar.setEnabled(false);
-			winOpArea.add(avatar, Component.LEFT_ALIGNMENT);
-			
+
+
+//			avatar = new JButton(new ImageIcon(GitInstance.getInstance().getAvatar()));
+//			avatar.setEnabled(false);
+//			winOpArea.add(avatar, Component.LEFT_ALIGNMENT);
+
 			winOpArea.add(minimizeButton, Component.LEFT_ALIGNMENT);
 			winOpArea.add(maximizeButton, Component.RIGHT_ALIGNMENT);
 			winOpArea.add(exitButton, Component.CENTER_ALIGNMENT);
-			
+
 			winOpArea.setBackground(Color.white);
-			// Add component to jframe.
-		} catch (IOException e) {
-			e.printStackTrace();
-			//If it fails to find an icon or fails to open an icon the instance will shutdown.
-			dispose();
-			throw new RuntimeException();
-		}
+			// Add component to jframe. 
 		return winOpArea;
-	}
-
-	
-	private JButton createComponentButtons(String imagePath,
-			ActionListener actionListener) throws IOException {
-		
-		BufferedImage image = ImageIO.read(new File(imagePath));
-		ImageIcon icon = new ImageIcon(image);
-		final JButton button = new JButton(icon);
-		button.setBackground(DEFAULT_COLOR);
-		button.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent a) {
-				button.setBackground(HOVER_COLOR);
-			}
-
-			@Override
-			public void mouseExited(MouseEvent a) {
-				button.setBackground(DEFAULT_COLOR);
-			}
-		});
-		
-		button.setBorderPainted(false);
-		button.addActionListener(actionListener);
-		return button;
 	}
 }
