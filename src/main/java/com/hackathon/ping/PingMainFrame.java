@@ -7,9 +7,8 @@ package com.hackathon.ping;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import com.hackathon.ping.git.GitInstance;
 import com.hackathon.ping.objects.PINGButton;
-import com.sun.org.apache.xerces.internal.impl.RevalidationHandler;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -20,10 +19,10 @@ import java.io.IOException;
  * @author river226
  */
 
-//Future: Shut this stupid exception up.
 @SuppressWarnings("serial")
 public class PingMainFrame extends JFrame {
-	JPanel base, menu, wiki, repo, account;
+	JPanel base, menu;
+	//, wiki, repo, account;
 	PINGButton winex, winmax, winmin;
 	Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 	int w = 900;
@@ -32,13 +31,19 @@ public class PingMainFrame extends JFrame {
 	int y = (dim.height-h)/2;
 	boolean drag = false;
 	static Point mousePoint;
-
+	private final Color DEFAULT_COLOR = Color.WHITE;
+	private final Color HOVER_COLOR   = Color.LIGHT_GRAY;
+	
 	public PingMainFrame() {
 		super("Ping: PING is not Git");
 		
+		initComponents();
+	}
+	
+	private void initComponents() {
 		base = new JPanel();
 		menu = new JPanel();
-		wiki = new JPanel();
+//		wiki = new JPanel();
 		base.setBackground(Color.WHITE);
 
 		setUndecorated(true);
@@ -49,17 +54,21 @@ public class PingMainFrame extends JFrame {
 		
 		
 		
-		base.setLayout(null);		
-		buildWinOpArea();
-		buildMenu();
-		buildPanels();
+//		setLayout(null);
+		Container login = buildWindowFrame();
 		
-		base.add(menu);
-		base.add(wiki);
-		base.add(repo);
-		base.add(account);
+		Container account = createContainer("Account", Color.black);
+		Container repo    = createContainer("Repos", Color.red);
+		Container wiki    = createContainer("Wiki", Color.lightGray);
+		JPanel panel = new JPanel();
 		
-		add(base);
+		Container contentPane = this.getContentPane();
+		contentPane.setLayout(new FlowLayout());
+		contentPane.add(login);
+		contentPane.add(account);
+		contentPane.add(repo);
+		contentPane.add(wiki);
+
 		addMouseListener(new MouseListener() {
 
 			public void mousePressed(MouseEvent e){
@@ -94,109 +103,91 @@ public class PingMainFrame extends JFrame {
 		});
 	}
 	
-	private void buildPanels() {
-		account = new JPanel();
-		account.setBounds((int)((w*0.2)+10), 50, (int)((w*0.3)-10), h-60);
-		account.setBackground(Color.BLACK);
-		account.setLayout(new BoxLayout(account, BoxLayout.Y_AXIS));
-		buildAccounts();
+	private Container createContainer(String string, Color color) {
+		JPanel container = new JPanel();
+		BoxLayout layout = new BoxLayout(container, BoxLayout.Y_AXIS);
 		
-		repo = new JPanel();
-		repo.setLayout(new BoxLayout(repo, BoxLayout.Y_AXIS));
-		repo.setBounds(10, 50, (int)((w*0.2)-10), h-60);
-		repo.setBackground(Color.RED);
-		repo.setLayout(new BoxLayout(repo, BoxLayout.Y_AXIS));
+		container.setLayout(layout);
 		
-		wiki = new JPanel();
-		wiki.setBounds((int)((w/2)+10), 50, (int)((w/2)-20), h-60);
-		wiki.setBackground(Color.LIGHT_GRAY);
-		wiki.setLayout(new BoxLayout(wiki, BoxLayout.Y_AXIS));
-	}
-
-	private void buildRepos() {
-		// TODO
-		
-	}
-
-	private void buildAccounts() {
-		// TODO
-		
-	}
-
-	private void buildMenu() {
-		JMenu settings = new JMenu("Settings");
-		settings.add(new JMenuItem("Add Account"));
-		settings.add(new JMenuItem("Edit Account"));
-		settings.add(new JMenuItem("Add Local Repo"));
-		settings.setBackground(Color.WHITE);
-		settings.setBorderPainted(false);
-		settings.setEnabled(true);
-		// To be completed 
-		
-		menu = new JPanel();
-		menu.setBackground(Color.WHITE);
-		menu.setBounds(0, 0, 75, 40);
-		
-		menu.add(settings);
-	}
-	
-	private void buildRepo() {
-		// TODO
+		container.setBackground(color);
+		container.add(new JButton("TEST"));
+		container.add(new JButton("test"));
+		return container;
 	}
 	
 	//TODO: Fix ugly hard code
-	private void buildWinOpArea() {
+	private Container buildWindowFrame() {
+		JPanel winOpArea = new JPanel();
+		BoxLayout layout = new BoxLayout(winOpArea, BoxLayout.X_AXIS);
+		winOpArea.setLayout(layout);
 		JButton exitButton = null;
 		JButton maximizeButton = null;
 		JButton minimizeButton = null;
-		
+		JButton avatar = null;
 		try {
 			exitButton = createComponentButtons("src/main/resources/icons/exit.png", new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					//On exit dispose and throw RTE instead of system.exit
-					dispose();
-					throw new RuntimeException("Exited.");
+					//TODO: On exit dispose and throw RTE instead of system.exit
+					System.exit(0);
 				}
-			}, w-40);
+			});
 			
 			maximizeButton = createComponentButtons("src/main/resources/icons/max.png", new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					setSize(dim.width, dim.height);
-					
 				}
-			}, w-80);
+			});
 			
 			minimizeButton = createComponentButtons("src/main/resources/icons/min.png", new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					setState(JFrame.ICONIFIED);
 				}
-			}, w-120);
+			});
 			
-			base.add(exitButton);
-			base.add(maximizeButton);
-			base.add(minimizeButton);
 			
+			avatar = new JButton(new ImageIcon(GitInstance.getInstance().getAvatar()));
+			avatar.setEnabled(false);
+			winOpArea.add(avatar, Component.LEFT_ALIGNMENT);
+			
+			winOpArea.add(minimizeButton, Component.LEFT_ALIGNMENT);
+			winOpArea.add(maximizeButton, Component.RIGHT_ALIGNMENT);
+			winOpArea.add(exitButton, Component.CENTER_ALIGNMENT);
+			
+			winOpArea.setBackground(Color.white);
+			// Add component to jframe.
 		} catch (IOException e) {
 			e.printStackTrace();
 			//If it fails to find an icon or fails to open an icon the instance will shutdown.
 			dispose();
 			throw new RuntimeException();
 		}
+		return winOpArea;
 	}
 
 	
 	private JButton createComponentButtons(String imagePath,
-			ActionListener actionListener, int location) throws IOException {
+			ActionListener actionListener) throws IOException {
 		
-		JButton button = new JButton(new ImageIcon(ImageIO.read(new File(imagePath))));
-		button.setBorder(BorderFactory.createEmptyBorder());
-		button.setContentAreaFilled(false);
+		BufferedImage image = ImageIO.read(new File(imagePath));
+		ImageIcon icon = new ImageIcon(image);
+		final JButton button = new JButton(icon);
+		button.setBackground(DEFAULT_COLOR);
+		button.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent a) {
+				button.setBackground(HOVER_COLOR);
+			}
+
+			@Override
+			public void mouseExited(MouseEvent a) {
+				button.setBackground(DEFAULT_COLOR);
+			}
+		});
 		
-		//TODO: Fix so not dependent on static location but instead on groupLayout.
-		button.setBounds(location,0, 40, 40);
+		button.setBorderPainted(false);
 		button.addActionListener(actionListener);
 		return button;
 	}
