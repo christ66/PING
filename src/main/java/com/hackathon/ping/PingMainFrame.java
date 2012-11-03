@@ -9,7 +9,8 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import com.hackathon.ping.git.GitInstance;
-import com.hackathon.ping.objects.PINGButton;
+import com.hackathon.ping.objects.PingButton;
+import com.hackathon.ping.objects.PingWinButton;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -23,7 +24,7 @@ import java.io.IOException;
 @SuppressWarnings("serial")
 public class PingMainFrame extends JFrame {
 	JPanel base, menu, wiki;
-	PINGButton winex, winmax, winmin;
+	PingButton winex, winmax, winmin;
 	Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 	int w = 900;
 	int h = 600;
@@ -95,26 +96,26 @@ public class PingMainFrame extends JFrame {
 		JPanel winOpArea = new JPanel();
 		BoxLayout layout = new BoxLayout(winOpArea, BoxLayout.X_AXIS);
 		winOpArea.setLayout(layout);
-		PINGButton exitButton = null;
-		PINGButton maximizeButton = null;
-		PINGButton minimizeButton = null;
-		PINGButton avatar = null;
+		PingButton exitButton = null;
+		PingButton maximizeButton = null;
+		PingButton minimizeButton = null;
+		PingButton avatar = null;
 		String[] icons = {"src/main/resources/icons/exit.png", "src/main/resources/icons/min.png", "src/main/resources/icons/max.png", "src/main/resources/icons/restore.png"};
-			exitButton = new PINGButton(icons[0], icons[0], "Exit", new ActionListener() {
+			exitButton = new PingWinButton(icons[0], icons[0], "Exit", new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					throw new RuntimeException();
 				}
 			});
 
-			maximizeButton = new PINGButton(icons[1], icons[2], "Maximize", new ActionListener() {
+			maximizeButton = new PingWinButton(icons[1], icons[2], "Maximize", new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					setSize(dim.width, dim.height);
 				}
 			});
 
-			minimizeButton = new PINGButton(icons[3], icons[3], "Minimize", new ActionListener() {
+			minimizeButton = new PingWinButton(icons[3], icons[3], "Minimize", new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					setState(JFrame.ICONIFIED);

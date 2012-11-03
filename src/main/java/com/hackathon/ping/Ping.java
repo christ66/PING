@@ -22,7 +22,7 @@ public class Ping {
 				try {
 					createAndShowGUI();
 				}catch (RuntimeException e) {
-					e.printStackTrace();
+//					e.printStackTrace();
 					System.exit(0);
 				}
 			}
